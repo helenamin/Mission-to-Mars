@@ -70,9 +70,17 @@ def scrape():
 
     tables = pd.read_html(url_3)
 
-    df = tables[1]
+    df = tables[0]
 
-    df.columns = ['Facts', 'Values']
+    #grab the first row for the header
+    new_header = df.iloc[0] 
+    #take the data less the header row
+    df = df[1:]
+    #set the header row as the df header
+    df.columns = new_header 
+
+    # set the index to the `Mars - Earth Comparison` column
+    df.set_index('Mars - Earth Comparison', inplace=True)
 
     #Generate HTML tables string from DataFrame
     html_table = df.to_html()
@@ -95,50 +103,34 @@ def scrape():
 
     items = soup.find_all('div', class_='item')
 
-    #Define lists for Mars Hemispheres links and titles
-    hem_urls = []
+    #Define lists for image links and titles
+    img_urls = []
     titles = []
+    i=0
 
-    #Scrabe Mars Hemispheres links
+    #Scrabe image links and titles
     for item in items:
+        
+        
+        browser.find_by_css('a.itemLink h3')[i].click()
+    
+        img_url = browser.find_link_by_text("Sample").first['href']
+        img_urls.append(img_url)
+        
+        browser.back()
+        
         title = item.find('h3').text
         title_text = title.split('E')[0]
         titles.append(title_text)
-        a = item.find('a')
-        relative_hem_url = a["href"]
-        hem_urls.append(url_4 + relative_hem_url)
+    
+        i=i+1
 
     #close the browser
     browser.quit()
 
-    #Define list for image links
-    image_urls =[]
-
-    #Scrabe image urls from Mars Hemispheres links
-    for url in hem_urls:
-        # Setup splinter
-        executable_path = {'executable_path': ChromeDriverManager().install()}
-        browser = Browser('chrome', **executable_path, headless=False)
-        
-        browser.visit(url)
-        # HTML object
-        html = browser.html
-        
-        # Parse HTML with Beautiful Soup
-        soup = BeautifulSoup(html, 'html.parser')
-        
-        # Retrieve image urls    
-        a= soup.find_all('a')
-        img_url = a[3]["href"]
-        image_urls.append(url_4+img_url)
-        
-        #close the browser
-        browser.quit()
-
-    
     # Create hemisphere_image_urls objet which is a list of dictionaries 
-    hemisphere_image_urls =[]
-    hemisphere_image_urls = [{'title': title, 'img_url': img_url} for title,img_url in zip(titles,image_urls)]
+    hemispheres =[]
+    hemispheres = [{'title': title, 'img_url': img_url} for title,img_url in zip(titles,img_urls)]
 
 
     mars_data = {
@@ -146,7 +138,7 @@ def scrape():
         "news_p": news_p,
         "featured_image_url": featured_image_url,
         "html_table": html_table,
-        hemisphere_image_urls: hemisphere_image_urls
+        "hemispheres": hemispheres
     }
 
     # Return results
