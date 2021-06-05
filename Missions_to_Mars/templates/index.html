@@ -6,10 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mission to Mars</title>
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-  <link rel="stylesheet" type="text/css" href="../css/reset.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 
 <body>
@@ -23,22 +20,22 @@
         <div class="row">
             <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <section class="news" style="float: inline-end;">
+                        <section class="news" style="padding:50px;">
                             <h2>Latest Mars News</h2>
                             <h4>{{ mission.news_title }}</h4>
                             <p>{{ mission.news_p }}</p>
                         </section>  
                 </div>
             </div>
-            <div class="row">
+            <div class="row text-center">
                 <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12" >
-                        <section class="featured-img" style ="float: left;" >                 
+                        <section class="featured-img" style ="padding:50px;" >                 
                             <h2>Featured Mars Image</h2>       
                             <img style="max-width:100%;" src="{{ mission.featured_image_url }}" alt="featured Mars Image">
                         </section> 
                 </div>     
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12" >
-                    <section class="facts">
+                    <section class="facts" style ="padding:50px;">
                         <h4>Mars Facts</h4>
                         <section style ="margin-left: auto; margin-right: auto; ">{{ mission.html_table | safe }}</section>
                     </section>
@@ -55,10 +52,14 @@
         </div>
         <div class="row text-center">
                 {% for hemisphere in mission.hemispheres %}
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" style="border: 1px;">
-                            <img style="max-width:100%;" src="{{ hemisphere.img_url }}">
-                            <br>
-                            <h5>{{ hemisphere.title }}</h5>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" style="border: 1px; padding:25px;">
+
+                        <div class="card" style="width:100%; ">
+                            <img src="{{ hemisphere.img_url }}" class="card-img-top" alt="{{ hemisphere.title }}">
+                            <div class="card-body">
+                              <p class="card-text"><strong>{{ hemisphere.title }}</strong></p>
+                            </div>
+                          </div>
                     </div>
                 {% endfor %}                    
         </div>  
