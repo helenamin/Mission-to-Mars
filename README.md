@@ -25,5 +25,5 @@ In order to display all of the information that was scraped from the URLs above,
 
 * Finally a template HTML file created called `index.html` that takes the mars data dictionary and display all of the data in the appropriate HTML elements. The final product looks like below.
 
-![final_app_part1.png](screenshots/final_app_part1.png)
-![final_app_part2.png](screenshots/final_app_part2.png)
+![final_app_part1.png](screenshots/final_app_part1.PNG)
+![final_app_part2.png](screenshots/final_app_part2.PNG)
