@@ -128,6 +128,8 @@ def scrape():
     #close the browser
     browser.quit()
 
+    
+
     # Create hemisphere_image_urls objet which is a list of dictionaries 
     hemispheres =[]
     hemispheres = [{'title': title, 'img_url': img_url} for title,img_url in zip(titles,img_urls)]
